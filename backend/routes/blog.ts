@@ -2,6 +2,11 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
+import {
+  createPostSchema,
+  updatePostSchema,
+  onlyPostIdSchema,
+} from "../src/zod";
 
 const blogRoute = new Hono<{
   Bindings: {
@@ -30,6 +35,11 @@ blogRoute.use("/*", async (c, next) => {
 
 blogRoute.post("/", async (c) => {
   const body = await c.req.json();
+  const checkBody = createPostSchema.safeParse(body);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const userId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -54,6 +64,11 @@ blogRoute.post("/", async (c) => {
 
 blogRoute.put("/", async (c) => {
   const body = await c.req.json();
+  const checkBody = updatePostSchema.safeParse(body);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const userId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -126,6 +141,11 @@ blogRoute.get("/publish/bulk", async (c) => {
 
 blogRoute.put("/publish", async (c) => {
   const body = await c.req.json();
+  const checkBody = onlyPostIdSchema.safeParse(body);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const userId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -152,6 +172,11 @@ blogRoute.put("/publish", async (c) => {
 
 blogRoute.put("/unpublish", async (c) => {
   const body = await c.req.json();
+  const checkBody = onlyPostIdSchema.safeParse(body);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const userId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,

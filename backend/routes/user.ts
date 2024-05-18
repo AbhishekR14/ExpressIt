@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { sign } from "hono/jwt";
+import { signinSchema, signupSchema } from "../src/zod";
 
 const userRoute = new Hono<{
   Bindings: {
@@ -12,6 +13,12 @@ const userRoute = new Hono<{
 
 userRoute.post("/signup", async (c) => {
   const body = await c.req.json(); //Getting the body
+  const checkBody = signupSchema.safeParse(body);
+  console.log(checkBody);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -24,10 +31,8 @@ userRoute.post("/signup", async (c) => {
       },
     });
     if (responseUser) {
-      console.log("Hi");
       const token = await sign({ id: responseUser.id }, c.env.JWT_SECRET);
       console.log(token);
-      return c.json({ token });
     }
   } catch (e) {
     c.status(403);
@@ -37,6 +42,12 @@ userRoute.post("/signup", async (c) => {
 
 userRoute.post("/signin", async (c) => {
   const body = await c.req.json();
+  const checkBody = signinSchema.safeParse(body);
+  console.log(checkBody);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
