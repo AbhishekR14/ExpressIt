@@ -16,13 +16,15 @@ const blogRoute = new Hono<{
 //middleware, all the requests coming to /api/v1/blog will go thought this middleware
 blogRoute.use("/*", async (c, next) => {
   const authToken = c.req.header("Authorization")?.split(" ")[1] || "";
-  const verifiedTokenPayload = await verify(authToken, c.env.JWT_SECRET);
-  if (verifiedTokenPayload.id) {
-    c.set("userId", verifiedTokenPayload.id);
-    await next();
-  } else {
+  try {
+    const verifiedTokenPayload = await verify(authToken, c.env.JWT_SECRET);
+    if (verifiedTokenPayload.id) {
+      c.set("userId", verifiedTokenPayload.id);
+      await next();
+    }
+  } catch (e) {
     c.status(401);
-    return c.json({ error: "unauthorized" });
+    return c.json({ error: "Unauthorized, Please log in again" });
   }
 });
 
