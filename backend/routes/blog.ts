@@ -77,7 +77,7 @@ blogRoute.put("/", async (c) => {
   }
 });
 
-blogRoute.get("/findpost/:id", async (c) => {
+blogRoute.get("/:id", async (c) => {
   const postId = c.req.param("id");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
