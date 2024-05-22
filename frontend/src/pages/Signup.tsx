@@ -22,15 +22,14 @@ export default function Signin() {
         email: signUpInputs.email,
         password: signUpInputs.password,
       });
-      console.log(res);
       if (res.status == 200) {
         localStorage.setItem("ExpressItAuthToken", "Bearer " + res.data.token);
         navigate("/home");
       } else {
-        setLoading("Invalid credentials. Try again!");
+        setLoading("Invaild Data. Try again!");
       }
     } catch (e) {
-      setLoading("Invalid credentials. Try again!");
+      setLoading("Invalid Data. Try again!");
     }
   }
   return (

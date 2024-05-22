@@ -1,14 +1,35 @@
 import LabelledInputBox from "../components/LabelledInputBox";
 import Button from "../components/Button";
 import SideQuote from "../components/SideQuote";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
+import axios from "axios";
 
 export default function Signin() {
+  const navigate = useNavigate();
   const [signInInputs, setSignInInputs] = React.useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = React.useState("");
+
+  async function signin() {
+    try {
+      setLoading("Verifing your credentials");
+      const res = await axios.post("http://localhost:8787/api/v1/user/signin", {
+        email: signInInputs.email,
+        password: signInInputs.password,
+      });
+      if (res.status == 200) {
+        localStorage.setItem("ExpressItAuthToken", "Bearer " + res.data.token);
+        navigate("/home");
+      } else {
+        setLoading("Invalid credentials. Try again!");
+      }
+    } catch (e) {
+      setLoading("Invalid credentials. Try again!");
+    }
+  }
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="grid items-center justify-center h-screen">
@@ -41,13 +62,39 @@ export default function Signin() {
               });
             }}
           />
-          <Button name="Sign In" />
-          <div className="hidden justify-center">
+          <Button name="Sign In" onClick={signin} />
+          <div className="grid justify-center">{loading}</div>
+          <div className="justify-center">
             <div>
               Already signed in before? Try{" "}
-              <Link to="/home" className="underline">
+              <button
+                onClick={async () => {
+                  try {
+                    setLoading("Verifing your credentials");
+                    const res = await axios.get(
+                      "http://localhost:8787/api/v1/blog/publish/bulk",
+                      {
+                        headers: {
+                          authorization:
+                            localStorage.getItem("ExpressItAuthToken"),
+                        },
+                      }
+                    );
+                    if (res.status == 200) {
+                      navigate("/home");
+                    } else {
+                      alert("Please Sign In!");
+                    }
+                  } catch (e) {
+                    alert("Please Sign In");
+                  } finally {
+                    setLoading("");
+                  }
+                }}
+                className="underline"
+              >
                 One Click Signin
-              </Link>
+              </button>
             </div>
           </div>
           <div className="grid justify-center">
