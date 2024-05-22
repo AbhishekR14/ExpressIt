@@ -53,7 +53,7 @@ export default function Signin() {
               });
             }}
           />
-          <Button name="Sign In" />
+          <Button name="Sign Up" />
           <div className="grid justify-center">
             <div>
               Already have an account?{" "}

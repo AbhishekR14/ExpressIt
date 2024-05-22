@@ -45,7 +45,7 @@ export default function Signin() {
           <div className="hidden justify-center">
             <div>
               Already signed in before? Try{" "}
-              <Link to="/dashboard" className="underline">
+              <Link to="/home" className="underline">
                 One Click Signin
               </Link>
             </div>
