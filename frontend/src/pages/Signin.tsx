@@ -4,6 +4,7 @@ import SideQuote from "../components/SideQuote";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
+import { APIwebsite } from "../App";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function Signin() {
   async function signin() {
     try {
       setLoading("Verifing your credentials");
-      const res = await axios.post("http://localhost:8787/api/v1/user/signin", {
+      const res = await axios.post(APIwebsite + "api/v1/user/signin", {
         email: signInInputs.email,
         password: signInInputs.password,
       });
@@ -72,7 +73,7 @@ export default function Signin() {
                   try {
                     setLoading("Verifing your credentials");
                     const res = await axios.get(
-                      "http://localhost:8787/api/v1/blog/publish/bulk",
+                      APIwebsite + "api/v1/blog/publish/bulk",
                       {
                         headers: {
                           authorization:

@@ -1,9 +1,10 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Blog from "./pages/Blog";
 import Home from "./pages/Home";
+
+export const APIwebsite: string = "http://localhost:8787/"; //https://backend.aranjan0288.workers.dev/
 
 function App() {
   return (
