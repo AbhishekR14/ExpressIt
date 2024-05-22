@@ -2,8 +2,13 @@ import LabelledInputBox from "../components/LabelledInputBox";
 import Button from "../components/Button";
 import SideQuote from "../components/SideQuote";
 import { Link } from "react-router-dom";
+import React from "react";
 
 export default function Signin() {
+  const [signInInputs, setSignInInputs] = React.useState({
+    email: "",
+    password: "",
+  });
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="grid items-center justify-center h-screen">
@@ -18,11 +23,23 @@ export default function Signin() {
             type="text"
             placeholder="Email@website.com"
             label="Email"
+            onChange={(e) => {
+              setSignInInputs({
+                ...signInInputs,
+                email: e.target.value,
+              });
+            }}
           />
           <LabelledInputBox
             type="password"
             placeholder="Enter your password"
             label="Password"
+            onChange={(e) => {
+              setSignInInputs({
+                ...signInInputs,
+                password: e.target.value,
+              });
+            }}
           />
           <Button name="Sign In" />
           <div className="hidden justify-center">
