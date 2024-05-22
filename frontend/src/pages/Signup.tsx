@@ -1,15 +1,38 @@
 import LabelledInputBox from "../components/LabelledInputBox";
 import Button from "../components/Button";
 import SideQuote from "../components/SideQuote";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
+import axios from "axios";
 
 export default function Signin() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = React.useState("");
   const [signUpInputs, setSignUpInputs] = React.useState({
     name: "",
     email: "",
     password: "",
   });
+
+  async function signup() {
+    try {
+      setLoading("Verifing your credentials");
+      const res = await axios.post("http://localhost:8787/api/v1/user/signup", {
+        name: signUpInputs.name,
+        email: signUpInputs.email,
+        password: signUpInputs.password,
+      });
+      console.log(res);
+      if (res.status == 200) {
+        localStorage.setItem("ExpressItAuthToken", "Bearer " + res.data.token);
+        navigate("/home");
+      } else {
+        setLoading("Invalid credentials. Try again!");
+      }
+    } catch (e) {
+      setLoading("Invalid credentials. Try again!");
+    }
+  }
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="grid items-center justify-center h-screen">
@@ -53,7 +76,8 @@ export default function Signin() {
               });
             }}
           />
-          <Button name="Sign Up" />
+          <Button name="Sign Up" onClick={signup} />
+          <div className="grid justify-center">{loading}</div>
           <div className="grid justify-center">
             <div>
               Already have an account?{" "}

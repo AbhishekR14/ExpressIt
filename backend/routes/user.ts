@@ -14,7 +14,6 @@ const userRoute = new Hono<{
 userRoute.post("/signup", async (c) => {
   const body = await c.req.json(); //Getting the body
   const checkBody = signupSchema.safeParse(body);
-  console.log(checkBody);
   if (!checkBody.success) {
     c.status(403);
     return c.json({ error: "Incorrect Inputs" });
@@ -30,20 +29,19 @@ userRoute.post("/signup", async (c) => {
         password: body.password,
       },
     });
-    if (responseUser) {
+    if (responseUser.id) {
       const token = await sign({ id: responseUser.id }, c.env.JWT_SECRET);
-      console.log(token);
+      return c.json({ token });
     }
   } catch (e) {
     c.status(403);
-    return c.json({ error: "Error while signing up" });
+    return c.json({ message: "Error while signing up", error: e });
   }
 });
 
 userRoute.post("/signin", async (c) => {
   const body = await c.req.json();
   const checkBody = signinSchema.safeParse(body);
-  console.log(checkBody);
   if (!checkBody.success) {
     c.status(403);
     return c.json({ error: "Incorrect Inputs" });
@@ -59,9 +57,7 @@ userRoute.post("/signin", async (c) => {
       },
     });
     if (foundUser) {
-      console.log(c.env.JWT_SECRET);
       const token = await sign({ id: foundUser.id }, c.env.JWT_SECRET);
-      console.log(token);
       return c.json({ token });
     } else {
       c.status(403);
