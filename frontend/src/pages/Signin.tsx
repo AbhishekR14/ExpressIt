@@ -72,15 +72,12 @@ export default function Signin() {
                 onClick={async () => {
                   try {
                     setLoading("Verifing your credentials");
-                    const res = await axios.get(
-                      APIwebsite + "api/v1/blog/publish/bulk",
-                      {
-                        headers: {
-                          authorization:
-                            localStorage.getItem("ExpressItAuthToken"),
-                        },
-                      }
-                    );
+                    const res = await axios.get(APIwebsite + "api/v1/home", {
+                      headers: {
+                        authorization:
+                          localStorage.getItem("ExpressItAuthToken"),
+                      },
+                    });
                     if (res.status == 200) {
                       navigate("/home");
                     } else {
