@@ -75,31 +75,31 @@ export default function Home() {
   return (
     <div>
       <AppBar userName={user.userName} onClick={() => {}} />
-      <br></br>
-      <br></br>
-      <div className="grid justify-center">
-        <div className="flex ml-9">
+      <div className="grid justify-center mt-3 lg:mt-9">
+        <div className="flex lg:ml-9">
           <button
-            className={`px-3 ${
+            className={`pl-3 ${
               selectedOption == "Published" ? "underline" : ""
-            } hover:underline`}
+            } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Published");
             }}
           >
-            All Published Posts
+            Published Posts
           </button>
           <button
-            className={`px-3 ${
+            className={`px-1 ${
               selectedOption == "Unpublished" ? "underline" : ""
-            } hover:underline`}
+            } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Unpublished");
             }}
           >
             Your Unpublished Posts
           </button>
-          <button className="px-3 hover:underline">Create a new blog</button>
+          <button className="px-1 hover:underline md:px-3">
+            Create New Blog
+          </button>
         </div>
         <div className="w-screen max-w-5xl cursor-pointer">
           {displayingBlogs.map((post, index) => (
