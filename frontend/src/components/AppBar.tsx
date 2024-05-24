@@ -18,7 +18,8 @@ export function AppBar(props: propsInterface) {
       <div className="flex">
         <div className="rounded-full h-12 w-12 bg-gray-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
-            {props.userName[0].toUpperCase() + props.userName[1].toUpperCase()}
+            {props.userName[0]?.toUpperCase() +
+              props.userName[1]?.toUpperCase()}
           </div>
         </div>
         <div className="flex flex-col justify-center h-full mr-4">

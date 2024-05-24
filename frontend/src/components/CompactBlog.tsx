@@ -1,7 +1,7 @@
 export default function CompactBlog(props: propsInterface) {
   return (
     <div
-      className="border rounded-lg border-black m-2 p-2"
+      className="border rounded-lg border-black m-2 p-2 hover:bg-slate-200"
       onClick={props.onClick}
     >
       <div className="flex grid-cols-3 pt-2 ">
