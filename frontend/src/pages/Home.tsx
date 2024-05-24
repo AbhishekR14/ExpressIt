@@ -80,7 +80,9 @@ export default function Home() {
       <div className="grid justify-center">
         <div className="flex ml-9">
           <button
-            className="px-3 hover:underline"
+            className={`px-3 ${
+              selectedOption == "Published" ? "underline" : ""
+            } hover:underline`}
             onClick={() => {
               setSelectedOption("Published");
             }}
@@ -88,7 +90,9 @@ export default function Home() {
             All Published Posts
           </button>
           <button
-            className="px-3 hover:underline"
+            className={`px-3 ${
+              selectedOption == "Unpublished" ? "underline" : ""
+            } hover:underline`}
             onClick={() => {
               setSelectedOption("Unpublished");
             }}
