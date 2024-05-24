@@ -6,12 +6,15 @@ export function AppBar(props: propsInterface) {
   const navigate = useNavigate();
   return (
     <div className="shadow h-14 flex justify-between">
-      <div className="flex ml-4">
+      <div className="flex ml-4 cursor-pointer" onClick={props.onClick}>
         <img
           src={expressItLogo}
           className="rounded-full h-12 w-12 flex justify-center mt-1 mr-2"
         />
-        <div className="hidden md:flex flex-col justify-center h-full">
+        <div
+          className="hidden md:flex flex-col justify-center h-full cursor-pointer"
+          onClick={props.onClick}
+        >
           ExpressIt
         </div>
       </div>
@@ -39,7 +42,29 @@ export function AppBar(props: propsInterface) {
   );
 }
 
+export function EmptyAppBar(props: propInterface) {
+  return (
+    <div className="shadow h-14 flex">
+      <div className="flex ml-4 cursor-pointer" onClick={props.onClick}>
+        <img
+          src={expressItLogo}
+          className="rounded-full h-12 w-12 flex justify-center mt-1 mr-2"
+        />
+        <div
+          className="hidden md:flex flex-col justify-center h-full cursor-pointer"
+          onClick={props.onClick}
+        >
+          ExpressIt
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface propsInterface {
   userName: string;
+  onClick: (e: any) => void;
+}
+interface propInterface {
   onClick: (e: any) => void;
 }
