@@ -13,15 +13,12 @@ export default function ExpandedBlog(props: propsInterface) {
         </div>
       </div>
       <div
-        className="font-bold text-lg mb-1 lg:text-2xl cursor-default line-clamp-2 lg:line-clamp-1"
+        className="font-bold text-lg mb-1 lg:text-2xl cursor-default"
         onClick={props.expandBlog}
       >
         {props.postTitle}
       </div>
-      <div
-        className="text-base mb-3 line-clamp-3 cursor-default lg:line-clamp-2"
-        onClick={props.expandBlog}
-      >
+      <div className="text-base mb-3 cursor-default" onClick={props.expandBlog}>
         {props.postDescription}
       </div>
     </div>
