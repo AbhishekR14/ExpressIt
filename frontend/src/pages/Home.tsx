@@ -41,6 +41,7 @@ export default function Home() {
     });
     if (res.status === 200) {
       setPublishedBlogs(res.data.Posts);
+      setDisplayingBlogs(res.data.Posts);
     } else {
       alert("Please Sign In!");
     }
