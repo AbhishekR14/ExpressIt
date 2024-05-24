@@ -3,8 +3,10 @@ import { AppBar } from "../components/AppBar";
 import React from "react";
 import axios from "axios";
 import { APIwebsite } from "../App";
+import { useNavigate } from "react-router-dom";
 
 interface BlogPost {
+  id: string;
   authorId: string;
   postDate: string;
   title: string;
@@ -12,6 +14,7 @@ interface BlogPost {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
   const [user, setUser] = React.useState({ userId: "", userName: "" });
   const [publishedBlogs, setPublishedBlogs] = React.useState<BlogPost[]>([]);
   const [unpublishedBlogs, setUnpublishedBlogs] = React.useState<BlogPost[]>(
@@ -102,7 +105,7 @@ export default function Home() {
             Create New Blog
           </button>
         </div>
-        <div className="w-screen max-w-5xl cursor-pointer">
+        <div className="w-screen max-w-5xl">
           {displayingBlogs.map((post, index) => (
             <CompactBlog
               key={index}
@@ -110,7 +113,9 @@ export default function Home() {
               postDate="date"
               postTitle={post.title}
               postDescription={post.content}
-              onClick={() => {}}
+              expandBlog={() => {
+                navigate(`/blog/${post.id}`);
+              }}
             />
           ))}
         </div>
