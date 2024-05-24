@@ -139,6 +139,30 @@ blogRoute.get("/publish/bulk", async (c) => {
   }
 });
 
+blogRoute.get("/unpublish/bulk", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const userId = c.get("userId");
+  try {
+    const unPublishedPosts = await prisma.post.findMany({
+      where: {
+        published: false,
+        authorId: userId,
+      },
+    });
+    if (unPublishedPosts) {
+      return c.json({ Posts: unPublishedPosts });
+    } else {
+      c.status(403);
+      return c.json({ error: "No Unpublshed Posts" });
+    }
+  } catch (e) {
+    c.status(403);
+    return c.json({ error: "Errored while getting posts" });
+  }
+});
+
 blogRoute.put("/publish", async (c) => {
   const body = await c.req.json();
   const checkBody = onlyPostIdSchema.safeParse(body);
