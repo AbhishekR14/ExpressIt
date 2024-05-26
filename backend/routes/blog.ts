@@ -18,6 +18,37 @@ const blogRoute = new Hono<{
   };
 }>();
 
+function getDate(): string {
+  // Get today's date
+  const today = new Date();
+
+  // Define an array of month names
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Get the day, month, and year from the date object
+  const day = today.getDate();
+  const month = monthNames[today.getMonth()];
+  const year = today.getFullYear();
+
+  // Format the date as "13 Dec 2024"
+  const formattedDate = `${day} ${month} ${year}`;
+
+  return formattedDate;
+}
+
 //middleware, all the requests coming to /api/v1/blog will go thought this middleware
 blogRoute.use("/*", async (c, next) => {
   const authToken = c.req.header("Authorization")?.split(" ")[1] || "";
@@ -50,6 +81,7 @@ blogRoute.post("/", async (c) => {
         title: body.title,
         content: body.content,
         authorId: userId,
+        publishedDate: getDate(),
       },
     });
     return c.json({
@@ -104,6 +136,18 @@ blogRoute.get("/post/:id", async (c) => {
       where: {
         id: postId,
       },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
     if (foundPost) {
       return c.json({ Post: foundPost });
@@ -125,6 +169,18 @@ blogRoute.get("/publish/bulk", async (c) => {
     const publishedPosts = await prisma.post.findMany({
       where: {
         published: true,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     if (publishedPosts) {
@@ -149,6 +205,18 @@ blogRoute.get("/unpublish/bulk", async (c) => {
       where: {
         published: false,
         authorId: userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     if (unPublishedPosts) {
@@ -230,7 +298,20 @@ blogRoute.get("/bulk", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   try {
-    const allPosts = await prisma.post.findMany({});
+    const allPosts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
     if (allPosts) {
       return c.json({ Posts: allPosts });
     } else {
