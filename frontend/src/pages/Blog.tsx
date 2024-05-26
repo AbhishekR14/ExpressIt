@@ -7,10 +7,13 @@ import { EmptyAppBar } from "../components/AppBar";
 
 interface BlogPost {
   id: string;
-  authorId: string;
+  author: {
+    name: string;
+  };
   postDate: string;
   title: string;
   content: string;
+  publishedDate: string;
 }
 
 export default function Blog() {
@@ -18,10 +21,11 @@ export default function Blog() {
   const { id } = useParams(); // Accessing the id parameter from the URL
   const [blog, setBlog] = React.useState<BlogPost>({
     id: "",
-    authorId: "",
+    author: { name: "" },
     postDate: "",
     title: "",
     content: "",
+    publishedDate: "",
   });
 
   async function getBlog() {
@@ -51,8 +55,8 @@ export default function Blog() {
       <div className="grid justify-center mt-4 lg:mt-12">
         <div className="w-screen max-w-5xl">
           <ExpandedBlog
-            postCreator={blog.authorId}
-            postDate="date"
+            postCreator={blog.author.name}
+            postDate={blog.publishedDate}
             postTitle={blog.title}
             postDescription={blog.content}
             expandBlog={() => {}}

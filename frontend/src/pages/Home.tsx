@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 interface BlogPost {
   id: string;
-  authorId: string;
+  author: {
+    name: string;
+  };
   postDate: string;
   title: string;
   content: string;
+  publishedDate: string;
 }
 
 export default function Home() {
@@ -109,8 +112,8 @@ export default function Home() {
           {displayingBlogs.map((post, index) => (
             <CompactBlog
               key={index}
-              postCreator={post.authorId}
-              postDate="date"
+              postCreator={post.author.name}
+              postDate={post.publishedDate}
               postTitle={post.title}
               postDescription={post.content}
               expandBlog={() => {
