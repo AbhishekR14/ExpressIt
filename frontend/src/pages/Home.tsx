@@ -8,12 +8,14 @@ import { useNavigate } from "react-router-dom";
 interface BlogPost {
   id: string;
   author: {
+    id: string;
     name: string;
   };
   postDate: string;
   title: string;
   content: string;
   publishedDate: string;
+  published: boolean;
 }
 
 export default function Home() {
@@ -64,7 +66,13 @@ export default function Home() {
       alert("Please Sign In!");
     }
   }
-
+  function getBlogStatus(blogStatus: boolean, authorId: string): string {
+    if (authorId == user.userId) {
+      return blogStatus ? "Unpublish" : "Publish";
+    } else {
+      return "";
+    }
+  }
   React.useEffect(() => {
     callHome();
     getPublishedBlogs();
@@ -116,8 +124,38 @@ export default function Home() {
               postDate={post.publishedDate}
               postTitle={post.title}
               postDescription={post.content}
+              blogStatus={getBlogStatus(post.published, post.author.id)}
               expandBlog={() => {
                 navigate(`/blog/${post.id}`);
+              }}
+              publishOrUnpublishBlog={() => {
+                async function sendPublishOrUnpublishBlog() {
+                  if (getBlogStatus(post.published, post.author.id) != "") {
+                    try {
+                      const res = await axios.put(
+                        APIwebsite +
+                          "api/v1/blog/" +
+                          getBlogStatus(
+                            post.published,
+                            post.author.id
+                          ).toLowerCase(),
+                        { postId: post.id }, // This is the request body
+                        {
+                          headers: {
+                            authorization:
+                              localStorage.getItem("ExpressItAuthToken"),
+                          },
+                        }
+                      );
+                      if (res.status == 200) {
+                        navigate("/home");
+                      }
+                    } catch (e) {
+                      console.log({ error: e });
+                    }
+                  }
+                }
+                sendPublishOrUnpublishBlog();
               }}
             />
           ))}
