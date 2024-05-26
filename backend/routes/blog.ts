@@ -144,6 +144,7 @@ blogRoute.get("/post/:id", async (c) => {
         publishedDate: true,
         author: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -178,6 +179,7 @@ blogRoute.get("/publish/bulk", async (c) => {
         publishedDate: true,
         author: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -214,6 +216,7 @@ blogRoute.get("/unpublish/bulk", async (c) => {
         publishedDate: true,
         author: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -307,6 +310,7 @@ blogRoute.get("/bulk", async (c) => {
         publishedDate: true,
         author: {
           select: {
+            id: true,
             name: true,
           },
         },
