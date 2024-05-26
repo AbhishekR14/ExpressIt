@@ -27,6 +27,7 @@ export default function Home() {
   );
   const [displayingBlogs, setDisplayingBlogs] = React.useState<BlogPost[]>([]);
   const [selectedOption, setSelectedOption] = React.useState("Published");
+  const [statusChanged, setStatusChanged] = React.useState(1);
 
   async function callHome() {
     const res = await axios.get(APIwebsite + "api/v1/home", {
@@ -49,7 +50,6 @@ export default function Home() {
     });
     if (res.status === 200) {
       setPublishedBlogs(res.data.Posts);
-      setDisplayingBlogs(res.data.Posts);
     } else {
       alert("Please Sign In!");
     }
@@ -73,19 +73,23 @@ export default function Home() {
       return "";
     }
   }
+
   React.useEffect(() => {
     callHome();
-    getPublishedBlogs();
-    getUnpublishedBlogs();
   }, []);
 
   React.useEffect(() => {
-    if (selectedOption == "Published") {
+    getPublishedBlogs();
+    getUnpublishedBlogs();
+  }, [statusChanged]);
+
+  React.useEffect(() => {
+    if (selectedOption === "Published") {
       setDisplayingBlogs(publishedBlogs);
-    } else if (selectedOption == "Unpublished") {
+    } else if (selectedOption === "Unpublished") {
       setDisplayingBlogs(unpublishedBlogs);
     }
-  }, [selectedOption]);
+  }, [selectedOption, publishedBlogs, unpublishedBlogs]);
 
   return (
     <div>
@@ -148,7 +152,7 @@ export default function Home() {
                         }
                       );
                       if (res.status == 200) {
-                        navigate("/home");
+                        setStatusChanged(statusChanged + 1);
                       }
                     } catch (e) {
                       console.log({ error: e });
