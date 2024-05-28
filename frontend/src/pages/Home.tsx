@@ -94,8 +94,8 @@ export default function Home() {
   return (
     <div>
       <AppBar userName={user.userName} onClick={() => {}} />
-      <div className="grid justify-center mt-3 lg:mt-9">
-        <div className="flex lg:ml-9">
+      <div className="grid justify-center pt-3 lg:pt-9">
+        <div className="flex lg:pl-9 ">
           <button
             className={`pl-3 ${
               selectedOption == "Published" ? "underline" : ""

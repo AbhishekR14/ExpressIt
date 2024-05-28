@@ -85,7 +85,7 @@ export default function EditingBlog(props: propsInterface) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 flex-grow">
+    <div className="flex flex-col items-center justify-center bg-gray-100 flex-grow p-3 dark:bg-slate-400">
       <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
         <div className="mb-4">
           <input
@@ -111,7 +111,7 @@ export default function EditingBlog(props: propsInterface) {
         </div>
         <div className="flex pt-2 justify-center">{loading}</div>
         <button
-          className="mt-6 w-full px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="pt-6 w-full px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           onClick={async () => {
             setLoading("Saving the blog...");
             if (blog.title === "" || blog.content === "") {
