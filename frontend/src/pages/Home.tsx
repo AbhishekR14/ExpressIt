@@ -116,7 +116,12 @@ export default function Home() {
           >
             Your Unpublished Posts
           </button>
-          <button className="px-1 hover:underline md:px-3">
+          <button
+            className="px-1 hover:underline md:px-3"
+            onClick={() => {
+              navigate("/edit/newblog");
+            }}
+          >
             Create New Blog
           </button>
         </div>
@@ -130,7 +135,11 @@ export default function Home() {
               postDescription={post.content}
               blogStatus={getBlogStatus(post.published, post.author.id)}
               expandBlog={() => {
-                navigate(`/blog/${post.id}`);
+                if (post.published) {
+                  navigate(`/blog/${post.id}`);
+                } else {
+                  navigate(`/edit/${post.id}`);
+                }
               }}
               publishOrUnpublishBlog={() => {
                 async function sendPublishOrUnpublishBlog() {

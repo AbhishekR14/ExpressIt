@@ -11,10 +11,25 @@ export default function CompactBlog(props: propsInterface) {
         <div className="flex pr-2 text-slate-600 items-center cursor-default text-xs lg:text-sm ">
           {props.postDate}
         </div>
+        <div className="flex-grow"></div>
+        {props.blogStatus == "Publish" ? (
+          <>
+            <div
+              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+              onClick={props.expandBlog}
+            >
+              Edit Blog
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         {props.blogStatus != "" ? (
           <>
-            <div className="flex-grow"></div>
-            <div className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline" onClick={props.publishOrUnpublishBlog}>
+            <div
+              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+              onClick={props.publishOrUnpublishBlog}
+            >
               {props.blogStatus} Blog
             </div>
           </>
