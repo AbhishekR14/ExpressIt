@@ -199,8 +199,12 @@ export default function Home() {
         </div>
         <div className="w-screen max-w-5xl">
           {displayingBlogs.length === 0 && showNoItemsMessage ? (
-            <div className="text-center pt-6">You don't have any Unpublished Blogs</div>
-<div className="text-center py-2">Please create a new Blog!!</div>
+            <>
+              <div className="text-center pt-6">
+                You don't have any Unpublished Blogs
+              </div>
+              <div className="text-center py-2">Please create a new Blog!!</div>
+            </>
           ) : (
             displayingBlogs.map((post, index) => (
               <CompactBlog

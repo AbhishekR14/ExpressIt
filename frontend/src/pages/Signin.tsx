@@ -31,6 +31,22 @@ export default function Signin() {
       setLoading("Invalid credentials. Try again!");
     }
   }
+  async function callHome() {
+    try {
+      const res = await axios.get(APIwebsite + "api/v1/home", {
+        headers: {
+          authorization: localStorage.getItem("ExpressItAuthToken"),
+        },
+      });
+      if (res.status == 200) {
+        navigate("/home");
+      }
+    } catch (e) {}
+  }
+  React.useEffect(() => {
+    callHome();
+  }, []);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="grid items-center justify-center h-screen">
