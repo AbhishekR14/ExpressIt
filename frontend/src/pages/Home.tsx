@@ -151,7 +151,7 @@ export default function Home() {
                 setSelectedOption("Unpublished");
               }}
             >
-              Your UnPublished Blogs
+              Your Unpublished Blogs
             </button>
             <button
               type="button"
@@ -184,7 +184,7 @@ export default function Home() {
                 setSelectedOption("Unpublished");
               }}
             >
-              UnPublished
+              Unpublished
             </button>
             <button
               type="button"
