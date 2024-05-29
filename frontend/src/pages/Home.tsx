@@ -126,7 +126,7 @@ export default function Home() {
   }, [displayingBlogs]);
 
   return (
-    <div className="h-screen bg-beige">
+    <div className="min-h-screen bg-beige">
       <AppBar userName={user.userName} onClick={() => {}} />
       <div className="grid justify-center pt-3 lg:pt-9 ">
         <div className="flex justify-center">
