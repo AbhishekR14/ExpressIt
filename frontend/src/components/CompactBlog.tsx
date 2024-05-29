@@ -19,7 +19,7 @@ export default function CompactBlog(props: propsInterface) {
           <>
             <div
               className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:hidden"
-              onClick={props.expandBlog}
+              onClick={props.editBlog}
             >
               Edit
             </div>
@@ -31,7 +31,7 @@ export default function CompactBlog(props: propsInterface) {
             </div>
             <div
               className="hidden pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:block"
-              onClick={props.expandBlog}
+              onClick={props.editBlog}
             >
               Edit Blog
             </div>
@@ -83,4 +83,5 @@ interface propsInterface {
   expandBlog: (e: any) => void;
   publishOrUnpublishBlog: (e: any) => void;
   deleteBlog: (e: any) => void;
+  editBlog: (e: any) => void;
 }

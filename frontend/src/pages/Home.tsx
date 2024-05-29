@@ -200,11 +200,12 @@ export default function Home() {
                 postDescription={post.content}
                 blogStatus={getBlogStatus(post.published, post.author.id)}
                 expandBlog={() => {
-                  if (post.published) {
+                  {
                     navigate(`/blog/${post.id}`);
-                  } else {
-                    navigate(`/edit/${post.id}`);
                   }
+                }}
+                editBlog={() => {
+                  navigate(`/edit/${post.id}`);
                 }}
                 publishOrUnpublishBlog={() => {
                   async function sendPublishOrUnpublishBlog() {
