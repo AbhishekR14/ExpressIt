@@ -48,7 +48,7 @@ export function EmptyAppBar(props: propInterface) {
     <div
       className={`shadow h-14 flex items-center justify-between px-4 bg-${props.color}`}
     >
-      <div className="flex flex-col justify-center h-full mr-4 mt-1">
+      <div className="flex flex-col justify-center h-full mt-1">
         <Button
           name="Go Back"
           onClick={() => {
@@ -64,7 +64,7 @@ export function EmptyAppBar(props: propInterface) {
         />
         <div className="flex flex-col justify-center h-full">ExpressIt</div>
       </div>
-      <div></div>
+      <div className="w-16"> </div>
     </div>
   );
 }
