@@ -31,6 +31,7 @@ export default function Home() {
   const [statusChanged, setStatusChanged] = React.useState(1);
   const [showDeletePopUp, setShowDeletePopUp] = React.useState(false);
   const [blogToDelete, setBlogToDelete] = React.useState<BlogPost | null>(null);
+  const [showNoItemsMessage, setShowNoItemsMessage] = React.useState(false);
 
   async function callHome() {
     const res = await axios.get(APIwebsite + "api/v1/home", {
@@ -114,6 +115,16 @@ export default function Home() {
     }
   }, [selectedOption, publishedBlogs, unpublishedBlogs]);
 
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (displayingBlogs.length === 0) {
+        setShowNoItemsMessage(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [displayingBlogs]);
+
   return (
     <div>
       <AppBar userName={user.userName} onClick={() => {}} />
@@ -177,56 +188,60 @@ export default function Home() {
           </button>
         </div>
         <div className="w-screen max-w-5xl">
-          {displayingBlogs.map((post, index) => (
-            <CompactBlog
-              key={index}
-              postCreator={post.author.name}
-              postDate={post.publishedDate}
-              postTitle={post.title}
-              postDescription={post.content}
-              blogStatus={getBlogStatus(post.published, post.author.id)}
-              expandBlog={() => {
-                if (post.published) {
-                  navigate(`/blog/${post.id}`);
-                } else {
-                  navigate(`/edit/${post.id}`);
-                }
-              }}
-              publishOrUnpublishBlog={() => {
-                async function sendPublishOrUnpublishBlog() {
-                  if (getBlogStatus(post.published, post.author.id) !== "") {
-                    try {
-                      const res = await axios.put(
-                        APIwebsite +
-                          "api/v1/blog/" +
-                          getBlogStatus(
-                            post.published,
-                            post.author.id
-                          ).toLowerCase(),
-                        { postId: post.id }, // This is the request body
-                        {
-                          headers: {
-                            authorization:
-                              localStorage.getItem("ExpressItAuthToken"),
-                          },
+          {displayingBlogs.length === 0 && showNoItemsMessage ? (
+            <div className="text-center py-6">No Unpublished Blogs</div>
+          ) : (
+            displayingBlogs.map((post, index) => (
+              <CompactBlog
+                key={index}
+                postCreator={post.author.name}
+                postDate={post.publishedDate}
+                postTitle={post.title}
+                postDescription={post.content}
+                blogStatus={getBlogStatus(post.published, post.author.id)}
+                expandBlog={() => {
+                  if (post.published) {
+                    navigate(`/blog/${post.id}`);
+                  } else {
+                    navigate(`/edit/${post.id}`);
+                  }
+                }}
+                publishOrUnpublishBlog={() => {
+                  async function sendPublishOrUnpublishBlog() {
+                    if (getBlogStatus(post.published, post.author.id) !== "") {
+                      try {
+                        const res = await axios.put(
+                          APIwebsite +
+                            "api/v1/blog/" +
+                            getBlogStatus(
+                              post.published,
+                              post.author.id
+                            ).toLowerCase(),
+                          { postId: post.id }, // This is the request body
+                          {
+                            headers: {
+                              authorization:
+                                localStorage.getItem("ExpressItAuthToken"),
+                            },
+                          }
+                        );
+                        if (res.status === 200) {
+                          setStatusChanged(statusChanged + 1);
                         }
-                      );
-                      if (res.status === 200) {
-                        setStatusChanged(statusChanged + 1);
+                      } catch (e) {
+                        console.log({ error: e });
                       }
-                    } catch (e) {
-                      console.log({ error: e });
                     }
                   }
-                }
-                sendPublishOrUnpublishBlog();
-              }}
-              deleteBlog={() => {
-                setBlogToDelete(post);
-                setShowDeletePopUp(true);
-              }}
-            />
-          ))}
+                  sendPublishOrUnpublishBlog();
+                }}
+                deleteBlog={() => {
+                  setBlogToDelete(post);
+                  setShowDeletePopUp(true);
+                }}
+              />
+            ))
+          )}
         </div>
       </div>
       <DeleteBlogPopUp
