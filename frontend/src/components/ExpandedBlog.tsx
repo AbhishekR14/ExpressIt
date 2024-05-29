@@ -1,25 +1,25 @@
 export default function ExpandedBlog(props: propsInterface) {
   return (
-    <div className="border rounded-lg border-black m-2 p-2 ">
-      <div className="flex grid-cols-3 pt-2 ">
-        <div className="pr-2 font-semibold text-sm cursor-default lg:text-base">
-          {props.postCreator}
+    <div className="m-10 font-sans">
+      <h1 className="text-2xl font-bold lg:text-4xl">{props.postTitle}</h1>
+      <p className="text-gray-600 text-sm lg:text-lg">
+        Posted on {props.postDate}
+      </p>
+      <div className="flex items-center mt-4">
+        <div className="flex mr-2 rounded-full bg-gray-300 w-10 h-10 justify-center ">
+          <div className="flex flex-col justify-center h-full text-xl">
+            {props.postCreator[0]?.toUpperCase() +
+              props.postCreator[1]?.toUpperCase()}
+          </div>
         </div>
-        <div className="flex pr-2 text-slate-500 text-xs cursor-default lg:text-sm">
-          |
-        </div>
-        <div className="flex pr-2 text-slate-600 items-center cursor-default text-xs lg:text-sm ">
-          {props.postDate}
+        <div>
+          <h3 className="text-lg lg:text-xl">{props.postCreator}</h3>
         </div>
       </div>
-      <div
-        className="font-bold text-lg mb-1 lg:text-2xl cursor-default"
-        onClick={props.expandBlog}
-      >
-        {props.postTitle}
-      </div>
-      <div className="text-base mb-3 cursor-default" onClick={props.expandBlog}>
-        {props.postDescription}
+      <div className="mt-4 leading-loose lg:mt-6">
+        {props.postDescription.split("\n").map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ))}
       </div>
     </div>
   );

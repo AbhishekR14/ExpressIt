@@ -120,7 +120,7 @@ export default function Home() {
       if (displayingBlogs.length === 0) {
         setShowNoItemsMessage(true);
       }
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [displayingBlogs]);
