@@ -15,13 +15,25 @@ export default function CompactBlog(props: propsInterface) {
         {props.blogStatus == "Publish" ? (
           <>
             <div
-              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:hidden"
+              onClick={props.expandBlog}
+            >
+              Edit
+            </div>
+            <div
+              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:hidden"
+              onClick={props.deleteBlog}
+            >
+              Delete
+            </div>
+            <div
+              className="hidden pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:block"
               onClick={props.expandBlog}
             >
               Edit Blog
             </div>
             <div
-              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+              className="hidden pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:block"
               onClick={props.deleteBlog}
             >
               Delete Blog
