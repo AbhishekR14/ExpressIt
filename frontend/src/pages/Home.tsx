@@ -120,27 +120,55 @@ export default function Home() {
       <div className="grid justify-center pt-3 lg:pt-9">
         <div className="flex lg:pl-9 ">
           <button
-            className={`pl-3 ${
+            className={`hidden lg:block pl-3 ${
               selectedOption === "Published" ? "underline" : ""
             } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Published");
             }}
           >
-            Published Posts
+            Published Blogs
           </button>
           <button
-            className={`px-1 ${
+            className={`hidden lg:block px-1 ${
               selectedOption === "Unpublished" ? "underline" : ""
             } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Unpublished");
             }}
           >
-            Your Unpublished Posts
+            Your Unpublished Blogs
           </button>
           <button
-            className="px-1 hover:underline md:px-3"
+            className="hidden px-1 hover:underline md:px-3 lg:block"
+            onClick={() => {
+              navigate("/edit/newblog");
+            }}
+          >
+            Create New Blog
+          </button>
+          <button
+            className={`pl-3 ${
+              selectedOption === "Published" ? "underline" : ""
+            } md:px-3 hover:underline lg:hidden`}
+            onClick={() => {
+              setSelectedOption("Published");
+            }}
+          >
+            Published
+          </button>
+          <button
+            className={`px-3 ${
+              selectedOption === "Unpublished" ? "underline" : ""
+            } md:px-3 hover:underline lg:hidden`}
+            onClick={() => {
+              setSelectedOption("Unpublished");
+            }}
+          >
+            Your Unpublished
+          </button>
+          <button
+            className="px-1 hover:underline md:px-3 lg:hidden"
             onClick={() => {
               navigate("/edit/newblog");
             }}
