@@ -49,7 +49,7 @@ export default function EditingBlog(props: propsInterface) {
         setLoading("Blog Created!!");
         setTimeout(() => {
           setLoading("");
-          navigate("/home")
+          navigate("/home");
         }, 3000);
       }
     } catch (e) {

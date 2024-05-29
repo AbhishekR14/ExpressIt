@@ -44,19 +44,19 @@ export function AppBar(props: propsInterface) {
 
 export function EmptyAppBar(props: propInterface) {
   return (
-    <div className="shadow h-14 flex dark:bg-slate-200">
-      <div className="flex ml-4 cursor-pointer" onClick={props.onClick}>
+    <div className="shadow h-14 flex items-center justify-between px-4 dark:bg-slate-200">
+      <div className="flex cursor-pointer" onClick={props.onClick}>
+        <div className="flex flex-col justify-center h-full">Go Back</div>
+      </div>
+      <div className="flex items-center cursor-pointer" onClick={props.onClick}>
         <img
           src={expressItLogo}
-          className="rounded-full h-12 w-12 flex justify-center mt-1 mr-2"
+          alt="ExpressIt Logo"
+          className="rounded-full h-12 w-12 mr-2"
         />
-        <div
-          className="flex flex-col justify-center h-full cursor-pointer"
-          onClick={props.onClick}
-        >
-          ExpressIt
-        </div>
+        <div className="flex flex-col justify-center h-full">ExpressIt</div>
       </div>
+      <div></div>
     </div>
   );
 }
