@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import { APIwebsite } from "../App";
 import { useNavigate } from "react-router-dom";
+import { DeleteBlogPopUp } from "../components/DeleteBlogPopUp";
 
 interface BlogPost {
   id: string;
@@ -28,6 +29,8 @@ export default function Home() {
   const [displayingBlogs, setDisplayingBlogs] = React.useState<BlogPost[]>([]);
   const [selectedOption, setSelectedOption] = React.useState("Published");
   const [statusChanged, setStatusChanged] = React.useState(1);
+  const [showDeletePopUp, setShowDeletePopUp] = React.useState(false);
+  const [blogToDelete, setBlogToDelete] = React.useState<BlogPost | null>(null);
 
   async function callHome() {
     const res = await axios.get(APIwebsite + "api/v1/home", {
@@ -54,6 +57,7 @@ export default function Home() {
       alert("Please Sign In!");
     }
   }
+
   async function getUnpublishedBlogs() {
     const res = await axios.get(APIwebsite + "api/v1/blog/unpublish/bulk", {
       headers: {
@@ -66,11 +70,30 @@ export default function Home() {
       alert("Please Sign In!");
     }
   }
+
   function getBlogStatus(blogStatus: boolean, authorId: string): string {
-    if (authorId == user.userId) {
+    if (authorId === user.userId) {
       return blogStatus ? "Unpublish" : "Publish";
     } else {
       return "";
+    }
+  }
+
+  async function deleteBlog(blogId: string) {
+    try {
+      const res = await axios.delete(APIwebsite + "api/v1/blog", {
+        headers: {
+          authorization: localStorage.getItem("ExpressItAuthToken"),
+        },
+        data: {
+          postId: blogId,
+        },
+      });
+      if (res.status === 200) {
+        setStatusChanged(statusChanged + 1);
+      }
+    } catch (e) {
+      console.log({ error: e });
     }
   }
 
@@ -98,7 +121,7 @@ export default function Home() {
         <div className="flex lg:pl-9 ">
           <button
             className={`pl-3 ${
-              selectedOption == "Published" ? "underline" : ""
+              selectedOption === "Published" ? "underline" : ""
             } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Published");
@@ -108,7 +131,7 @@ export default function Home() {
           </button>
           <button
             className={`px-1 ${
-              selectedOption == "Unpublished" ? "underline" : ""
+              selectedOption === "Unpublished" ? "underline" : ""
             } md:px-3 hover:underline`}
             onClick={() => {
               setSelectedOption("Unpublished");
@@ -143,7 +166,7 @@ export default function Home() {
               }}
               publishOrUnpublishBlog={() => {
                 async function sendPublishOrUnpublishBlog() {
-                  if (getBlogStatus(post.published, post.author.id) != "") {
+                  if (getBlogStatus(post.published, post.author.id) !== "") {
                     try {
                       const res = await axios.put(
                         APIwebsite +
@@ -160,7 +183,7 @@ export default function Home() {
                           },
                         }
                       );
-                      if (res.status == 200) {
+                      if (res.status === 200) {
                         setStatusChanged(statusChanged + 1);
                       }
                     } catch (e) {
@@ -170,10 +193,24 @@ export default function Home() {
                 }
                 sendPublishOrUnpublishBlog();
               }}
+              deleteBlog={() => {
+                setBlogToDelete(post);
+                setShowDeletePopUp(true);
+              }}
             />
           ))}
         </div>
       </div>
+      <DeleteBlogPopUp
+        show={showDeletePopUp}
+        onClose={() => setShowDeletePopUp(false)}
+        onDelete={() => {
+          if (blogToDelete) {
+            deleteBlog(blogToDelete.id);
+          }
+          setShowDeletePopUp(false);
+        }}
+      />
     </div>
   );
 }

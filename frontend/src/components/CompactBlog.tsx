@@ -20,6 +20,12 @@ export default function CompactBlog(props: propsInterface) {
             >
               Edit Blog
             </div>
+            <div
+              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+              onClick={props.deleteBlog}
+            >
+              Delete Blog
+            </div>
           </>
         ) : (
           ""
@@ -61,4 +67,5 @@ interface propsInterface {
   blogStatus?: string;
   expandBlog: (e: any) => void;
   publishOrUnpublishBlog: (e: any) => void;
+  deleteBlog: (e: any) => void;
 }
