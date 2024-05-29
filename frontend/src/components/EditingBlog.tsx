@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { ChangeEvent } from "react";
 import { APIwebsite } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export default function EditingBlog(props: propsInterface) {
   const [blog, setBlog] = React.useState({
@@ -8,6 +9,7 @@ export default function EditingBlog(props: propsInterface) {
     content: "",
   });
   const [loading, setLoading] = React.useState("");
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (props.title && props.content) {
@@ -47,6 +49,7 @@ export default function EditingBlog(props: propsInterface) {
         setLoading("Blog Created!!");
         setTimeout(() => {
           setLoading("");
+          navigate("/home")
         }, 3000);
       }
     } catch (e) {
@@ -109,7 +112,7 @@ export default function EditingBlog(props: propsInterface) {
         </div>
         <div className="flex pt-2 justify-center">{loading}</div>
         <button
-          className="pt-6 w-full px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="mt-6 w-full px-6 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           onClick={async () => {
             setLoading("Saving the blog...");
             if (blog.title === "" || blog.content === "") {
@@ -126,7 +129,7 @@ export default function EditingBlog(props: propsInterface) {
             }
           }}
         >
-          Save
+          {props.blogid === "newblog" ? "Create a new blog" : "Save"}
         </button>
       </div>
     </div>
