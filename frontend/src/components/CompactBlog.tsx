@@ -2,8 +2,11 @@ export default function CompactBlog(props: propsInterface) {
   return (
     <div className="border rounded-lg border-black m-2 p-2 hover:bg-slate-200">
       <div className="flex grid-cols-4 pt-2 ">
-        <div className="pr-2 font-semibold text-sm cursor-default lg:text-base">
-          {props.postCreator}
+        <div className="hidden pr-2 font-semibold text-sm cursor-default lg:text-base lg:block">
+          {props.postCreator.slice(0, 30)}
+        </div>
+        <div className="pr-2 font-semibold text-sm cursor-default lg:text-base lg:hidden">
+          {props.postCreator.slice(0, 10)}
         </div>
         <div className="flex pr-2 text-slate-500 text-xs cursor-default lg:text-sm">
           |
