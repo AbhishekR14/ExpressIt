@@ -50,6 +50,7 @@ export default function EditBlog() {
   return (
     <div className="flex flex-col h-screen">
       <EmptyAppBar
+        color="white"
         onClick={() => {
           navigate("/home");
         }}

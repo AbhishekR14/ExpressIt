@@ -5,7 +5,7 @@ import expressItLogo from "../util/ExpressIt-logo.jpg";
 export function AppBar(props: propsInterface) {
   const navigate = useNavigate();
   return (
-    <div className="shadow h-14 flex justify-between dark:bg-slate-200">
+    <div className="shadow h-14 flex justify-between bg-white">
       <div className="flex ml-4 cursor-pointer" onClick={props.onClick}>
         <img
           src={expressItLogo}
@@ -43,10 +43,18 @@ export function AppBar(props: propsInterface) {
 }
 
 export function EmptyAppBar(props: propInterface) {
+  const navigate = useNavigate();
   return (
-    <div className="shadow h-14 flex items-center justify-between px-4 dark:bg-slate-200">
-      <div className="flex cursor-pointer" onClick={props.onClick}>
-        <div className="flex flex-col justify-center h-full">Go Back</div>
+    <div
+      className={`shadow h-14 flex items-center justify-between px-4 bg-${props.color}`}
+    >
+      <div className="flex flex-col justify-center h-full mr-4 mt-1">
+        <Button
+          name="Go Back"
+          onClick={() => {
+            navigate("/home");
+          }}
+        />
       </div>
       <div className="flex items-center cursor-pointer" onClick={props.onClick}>
         <img
@@ -67,4 +75,5 @@ interface propsInterface {
 }
 interface propInterface {
   onClick: (e: any) => void;
+  color: string;
 }

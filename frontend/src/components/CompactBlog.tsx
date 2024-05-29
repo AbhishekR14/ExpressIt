@@ -17,42 +17,51 @@ export default function CompactBlog(props: propsInterface) {
         <div className="flex-grow"></div>
         {props.blogStatus == "Publish" ? (
           <>
-            <div
-              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:hidden"
+            <button
+              type="button"
+              className="lg:hidden px-2 text-sm font-medium text-gray-900 bg-beige
+              border border-gray-500 rounded-s-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200"
               onClick={props.editBlog}
             >
               Edit
-            </div>
-            <div
-              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:hidden"
+            </button>
+            <button
+              type="button"
+              className="lg:hidden px-2 text-sm font-medium text-gray-900 bg-beige border border-gray-500 hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200"
               onClick={props.deleteBlog}
             >
               Delete
-            </div>
-            <div
-              className="hidden pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:block"
+            </button>
+            <button
+              type="button"
+              className="hidden lg:block px-4 text-sm font-medium text-gray-900 bg-beige
+              border border-gray-500 rounded-s-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200`"
               onClick={props.editBlog}
             >
               Edit Blog
-            </div>
-            <div
-              className="hidden pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline lg:block"
+            </button>
+            <button
+              type="button"
+              className="hidden lg:block px-2 text-sm font-medium text-gray-900 bg-beige border border-gray-500 hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200"
               onClick={props.deleteBlog}
             >
               Delete Blog
-            </div>
+            </button>
           </>
         ) : (
           ""
         )}
         {props.blogStatus != "" ? (
           <>
-            <div
-              className="pr-2 font-semibold text-sm cursor-pointer lg:text-base hover:underline"
+            <button
+              type="button"
+              className={` px-2 text-sm font-medium text-gray-900 bg-beige border border-gray-500 ${
+                props.blogStatus === "Unpublish" ? "rounded-md" : "rounded-e-lg"
+              } hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200`}
               onClick={props.publishOrUnpublishBlog}
             >
               {props.blogStatus} Blog
-            </div>
+            </button>
           </>
         ) : (
           ""

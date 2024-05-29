@@ -48,6 +48,7 @@ export default function Blog() {
   return (
     <>
       <EmptyAppBar
+        color="slate-200"
         onClick={() => {
           navigate("/home");
         }}

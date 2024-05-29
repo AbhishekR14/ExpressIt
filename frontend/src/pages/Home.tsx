@@ -126,66 +126,76 @@ export default function Home() {
   }, [displayingBlogs]);
 
   return (
-    <div>
+    <div className="h-screen bg-beige">
       <AppBar userName={user.userName} onClick={() => {}} />
-      <div className="grid justify-center pt-3 lg:pt-9">
-        <div className="flex lg:pl-9 ">
-          <button
-            className={`hidden lg:block pl-3 ${
-              selectedOption === "Published" ? "underline" : ""
-            } md:px-3 hover:underline`}
-            onClick={() => {
-              setSelectedOption("Published");
-            }}
-          >
-            Published Blogs
-          </button>
-          <button
-            className={`hidden lg:block px-1 ${
-              selectedOption === "Unpublished" ? "underline" : ""
-            } md:px-3 hover:underline`}
-            onClick={() => {
-              setSelectedOption("Unpublished");
-            }}
-          >
-            Your Unpublished Blogs
-          </button>
-          <button
-            className="hidden px-1 hover:underline md:px-3 lg:block"
-            onClick={() => {
-              navigate("/edit/newblog");
-            }}
-          >
-            Create New Blog
-          </button>
-          <button
-            className={`pl-3 ${
-              selectedOption === "Published" ? "underline" : ""
-            } md:px-3 hover:underline lg:hidden`}
-            onClick={() => {
-              setSelectedOption("Published");
-            }}
-          >
-            Published
-          </button>
-          <button
-            className={`px-3 ${
-              selectedOption === "Unpublished" ? "underline" : ""
-            } md:px-3 hover:underline lg:hidden`}
-            onClick={() => {
-              setSelectedOption("Unpublished");
-            }}
-          >
-            Your Unpublished
-          </button>
-          <button
-            className="px-1 hover:underline md:px-3 lg:hidden"
-            onClick={() => {
-              navigate("/edit/newblog");
-            }}
-          >
-            Create New Blog
-          </button>
+      <div className="grid justify-center pt-3 lg:pt-9 ">
+        <div className="flex justify-center">
+          <div className="inline-flex rounded-md shadow-sm" role="group">
+            <button
+              type="button"
+              className={`hidden lg:block px-4 py-2 text-sm font-medium text-gray-900 ${
+                selectedOption === "Published" ? "bg-blue-200" : "bg-beige"
+              } border border-gray-500 rounded-s-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200`}
+              onClick={() => {
+                setSelectedOption("Published");
+              }}
+            >
+              Published Blogs
+            </button>
+            <button
+              type="button"
+              className={`hidden lg:block px-4 py-2 text-sm font-medium text-gray-900 ${
+                selectedOption === "Unpublished" ? "bg-blue-200" : "bg-beige"
+              } border-t border-b border-gray-500 hover:bg-blue-200 hover:text-blue-700 focus:bg-blue-200 `}
+              onClick={() => {
+                setSelectedOption("Unpublished");
+              }}
+            >
+              Your UnPublished Blogs
+            </button>
+            <button
+              type="button"
+              className="hidden lg:block px-4 py-2 text-sm font-medium text-gray-900 bg-beige border border-gray-500 rounded-e-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200 "
+              onClick={() => {
+                navigate("/edit/newblog");
+              }}
+            >
+              Create New Blog
+            </button>
+          </div>
+          <div className="inline-flex rounded-md shadow-sm" role="group">
+            <button
+              type="button"
+              className={`lg:hidden px-4 py-2 text-sm font-medium text-gray-900 ${
+                selectedOption === "Published" ? "bg-blue-200" : "bg-beige"
+              } border border-gray-500 rounded-s-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200`}
+              onClick={() => {
+                setSelectedOption("Published");
+              }}
+            >
+              Published
+            </button>
+            <button
+              type="button"
+              className={`lg:hidden px-4 py-2 text-sm font-medium text-gray-900 ${
+                selectedOption === "Unpublished" ? "bg-blue-200" : "bg-beige"
+              } border-t border-b border-gray-500 hover:bg-blue-200 hover:text-blue-700 focus:bg-blue-200 `}
+              onClick={() => {
+                setSelectedOption("Unpublished");
+              }}
+            >
+              UnPublished
+            </button>
+            <button
+              type="button"
+              className="lg:hidden px-4 py-2 text-sm font-medium text-gray-900 bg-beige border border-gray-500 rounded-e-lg hover:bg-blue-200 hover:text-blue-700  focus:bg-blue-200 "
+              onClick={() => {
+                navigate("/edit/newblog");
+              }}
+            >
+              Create New Blog
+            </button>
+          </div>
         </div>
         <div className="w-screen max-w-5xl">
           {displayingBlogs.length === 0 && showNoItemsMessage ? (

@@ -86,7 +86,7 @@ export default function EditingBlog(props: propsInterface) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 flex-grow p-3 dark:bg-slate-400">
+    <div className="flex flex-col items-center justify-center bg-beige flex-grow p-3">
       <div className="w-full max-w-2xl p-6 bg-white shadow-lg rounded-lg">
         <div className="mb-4">
           <input
