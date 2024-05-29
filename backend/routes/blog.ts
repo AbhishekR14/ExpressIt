@@ -126,6 +126,33 @@ blogRoute.put("/", async (c) => {
   }
 });
 
+blogRoute.delete("/", async (c) => {
+  const body = await c.req.json();
+  const checkBody = onlyPostIdSchema.safeParse(body);
+  if (!checkBody.success) {
+    c.status(403);
+    return c.json({ error: "Incorrect Inputs" });
+  }
+  const userId = c.get("userId");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: body.postId,
+        authorId: userId, //only the creater of the post can delete the post
+      },
+    });
+    return c.json({
+      message: "Post deleted",
+    });
+  } catch (e) {
+    c.status(403);
+    return c.json({ error: "Post could not be deleted" });
+  }
+});
+
 blogRoute.get("/post/:id", async (c) => {
   const postId = c.req.param("id");
   const prisma = new PrismaClient({
