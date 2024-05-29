@@ -81,36 +81,6 @@ export default function Signin() {
           />
           <Button name="Sign In" onClick={signin} />
           <div className="grid justify-center">{loading}</div>
-          <div className="justify-center">
-            <div>
-              Already signed in before? Try{" "}
-              <button
-                onClick={async () => {
-                  try {
-                    setLoading("Verifing your credentials");
-                    const res = await axios.get(APIwebsite + "api/v1/home", {
-                      headers: {
-                        authorization:
-                          localStorage.getItem("ExpressItAuthToken"),
-                      },
-                    });
-                    if (res.status == 200) {
-                      navigate("/home");
-                    } else {
-                      alert("Please Sign In!");
-                    }
-                  } catch (e) {
-                    alert("Please Sign In");
-                  } finally {
-                    setLoading("");
-                  }
-                }}
-                className="underline"
-              >
-                One Click Signin
-              </button>
-            </div>
-          </div>
           <div className="grid justify-center">
             <div>
               Don't have an account?{" "}
