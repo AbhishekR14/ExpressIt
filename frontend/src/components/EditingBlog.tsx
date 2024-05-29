@@ -43,7 +43,6 @@ export default function EditingBlog(props: propsInterface) {
           },
         }
       );
-      console.log(res);
       if (res.data.message === "Post created") {
         setLoading("Blog Created!!");
         setTimeout(() => {
@@ -71,7 +70,6 @@ export default function EditingBlog(props: propsInterface) {
           },
         }
       );
-      console.log(res);
       if (res.data.message === "Post updated") {
         setLoading("Blog Saved!!");
         setTimeout(() => {
