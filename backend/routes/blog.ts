@@ -65,6 +65,7 @@ blogRoute.get("/post/:id", async (c) => {
         content: true,
         published: true,
         publishedDate: true,
+        authorId: true,
         author: {
           select: {
             id: true,

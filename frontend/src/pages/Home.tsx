@@ -215,7 +215,11 @@ export default function Home() {
                 postDescription={post.content}
                 blogStatus={getBlogStatus(post.published, post.author.id)}
                 expandBlog={() => {
-                  {
+                  if (
+                    getBlogStatus(post.published, post.author.id) === "Publish"
+                  ) {
+                    navigate(`/unpublished/${post.id}`);
+                  } else {
                     navigate(`/blog/${post.id}`);
                   }
                 }}
