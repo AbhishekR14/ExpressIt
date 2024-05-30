@@ -49,6 +49,42 @@ function getDate(): string {
   return formattedDate;
 }
 
+blogRoute.get("/post/:id", async (c) => {
+  const postId = c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const foundPost = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+    if (foundPost) {
+      return c.json({ Post: foundPost });
+    } else {
+      c.status(403);
+      return c.json({ error: "Post could not be found" });
+    }
+  } catch (e) {
+    c.status(403);
+    return c.json({ error: "Post could not be found" });
+  }
+});
+
 //middleware, all the requests coming to /api/v1/blog will go thought this middleware
 blogRoute.use("/*", async (c, next) => {
   const authToken = c.req.header("Authorization")?.split(" ")[1] || "";
@@ -150,42 +186,6 @@ blogRoute.delete("/", async (c) => {
   } catch (e) {
     c.status(403);
     return c.json({ error: "Post could not be deleted" });
-  }
-});
-
-blogRoute.get("/post/:id", async (c) => {
-  const postId = c.req.param("id");
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-  try {
-    const foundPost = await prisma.post.findUnique({
-      where: {
-        id: postId,
-      },
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        published: true,
-        publishedDate: true,
-        author: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-    if (foundPost) {
-      return c.json({ Post: foundPost });
-    } else {
-      c.status(403);
-      return c.json({ error: "Post could not be found" });
-    }
-  } catch (e) {
-    c.status(403);
-    return c.json({ error: "Post could not be found" });
   }
 });
 
@@ -320,38 +320,6 @@ blogRoute.put("/unpublish", async (c) => {
   } catch (e) {
     c.status(403);
     return c.json({ error: "Post could not be Unpublished" });
-  }
-});
-
-blogRoute.get("/bulk", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-  try {
-    const allPosts = await prisma.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        content: true,
-        published: true,
-        publishedDate: true,
-        author: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-    if (allPosts) {
-      return c.json({ Posts: allPosts });
-    } else {
-      c.status(403);
-      return c.json({ error: "No Posts" });
-    }
-  } catch (e) {
-    c.status(403);
-    return c.json({ error: "Errored while getting posts" });
   }
 });
 
