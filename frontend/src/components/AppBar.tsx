@@ -1,6 +1,6 @@
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import expressItLogo from "../util/ExpressIt-logo.jpg";
+import expressItLogo from "../util/ExpressIt-logo.png";
 
 export function AppBar(props: propsInterface) {
   const navigate = useNavigate();
