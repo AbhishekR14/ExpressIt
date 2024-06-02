@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
 import { APIwebsite } from "../App";
+import Spinner from "../components/Spinner";
 
 export default function Signin() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Signin() {
     email: "",
     password: "",
   });
+  const [isExpressItAuthToken, setIsExpressItAuthToken] = React.useState(false);
 
   async function signup() {
     try {
@@ -46,66 +48,79 @@ export default function Signin() {
     } catch (e) {}
   }
   React.useEffect(() => {
-    callHome();
+    const token = localStorage.getItem("ExpressItAuthToken");
+    if (token != null) {
+      setIsExpressItAuthToken(true);
+      callHome();
+    }
   }, []);
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
-      <div className="grid items-center justify-center h-screen">
-        <div>
-          <div className="grid text-3xl font-bold justify-center pb-2">
-            Sign up
-          </div>
-          <div className="grid text-l font-medium text-gray-500 justify-center pb-2">
-            Enter your information to create an account
-          </div>
-          <LabelledInputBox
-            type="text"
-            placeholder="John"
-            label="Name"
-            onChange={(e) => {
-              setSignUpInputs({
-                ...signUpInputs,
-                name: e.target.value,
-              });
-            }}
-          />
-          <LabelledInputBox
-            type="text"
-            placeholder="Email@website.com"
-            label="Email"
-            onChange={(e) => {
-              setSignUpInputs({
-                ...signUpInputs,
-                email: e.target.value,
-              });
-            }}
-          />
-          <LabelledInputBox
-            type="password"
-            placeholder="Enter your password"
-            label="Password"
-            onChange={(e) => {
-              setSignUpInputs({
-                ...signUpInputs,
-                password: e.target.value,
-              });
-            }}
-          />
-          <Button name="Sign Up" onClick={signup} />
-          <div className="grid justify-center">{loading}</div>
-          <div className="grid justify-center">
-            <div>
-              Already have an account?{" "}
-              <Link to="/signin" className="underline">
-                Sign in
-              </Link>
+  if (isExpressItAuthToken) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner />
+        <div className="px-2">Signing you in</div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="grid items-center justify-center h-screen">
+          <div>
+            <div className="grid text-3xl font-bold justify-center pb-2">
+              Sign up
+            </div>
+            <div className="grid text-l font-medium text-gray-500 justify-center pb-2">
+              Enter your information to create an account
+            </div>
+            <LabelledInputBox
+              type="text"
+              placeholder="John"
+              label="Name"
+              onChange={(e) => {
+                setSignUpInputs({
+                  ...signUpInputs,
+                  name: e.target.value,
+                });
+              }}
+            />
+            <LabelledInputBox
+              type="text"
+              placeholder="Email@website.com"
+              label="Email"
+              onChange={(e) => {
+                setSignUpInputs({
+                  ...signUpInputs,
+                  email: e.target.value,
+                });
+              }}
+            />
+            <LabelledInputBox
+              type="password"
+              placeholder="Enter your password"
+              label="Password"
+              onChange={(e) => {
+                setSignUpInputs({
+                  ...signUpInputs,
+                  password: e.target.value,
+                });
+              }}
+            />
+            <Button name="Sign Up" onClick={signup} />
+            <div className="grid justify-center">{loading}</div>
+            <div className="grid justify-center">
+              <div>
+                Already have an account?{" "}
+                <Link to="/signin" className="underline">
+                  Sign in
+                </Link>
+              </div>
             </div>
           </div>
         </div>
+        <div className="hidden lg:block">
+          <SideQuote />
+        </div>
       </div>
-      <div className="hidden lg:block">
-        <SideQuote />
-      </div>
-    </div>
-  );
+    );
+  }
 }
