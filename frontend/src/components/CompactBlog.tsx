@@ -6,7 +6,7 @@ export default function CompactBlog(props: propsInterface) {
           {props.postCreator.slice(0, 30)}
         </div>
         <div className="pr-2 font-semibold text-sm cursor-default lg:text-base lg:hidden">
-          {props.postCreator.slice(0, 10)}
+          {props.postCreator.slice(0, 10).split(" ")[0]}
         </div>
         <div className="flex pr-2 text-slate-500 text-xs cursor-default lg:text-sm">
           |
