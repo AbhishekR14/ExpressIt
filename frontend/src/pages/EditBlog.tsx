@@ -36,7 +36,7 @@ export default function EditBlog() {
 
   async function getBlog() {
     try {
-      const res = await axios.get(APIwebsite + "api/v1/blog/post/" + blogid, {
+      const res = await axios.get(APIwebsite + "api/v1/blog/unpublished/post/" + blogid, {
         headers: {
           authorization: localStorage.getItem("ExpressItAuthToken"),
         },
