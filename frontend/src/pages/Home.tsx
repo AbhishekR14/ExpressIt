@@ -34,41 +34,48 @@ export default function Home() {
   const [showNoItemsMessage, setShowNoItemsMessage] = React.useState(false);
 
   async function callHome() {
-    const res = await axios.get(APIwebsite + "api/v1/home", {
-      headers: {
-        authorization: localStorage.getItem("ExpressItAuthToken"),
-      },
-    });
-    if (res.status === 200) {
-      setUser({ userId: res.data.userId, userName: res.data.userName });
-    } else {
+    try {
+      const res = await axios.get(APIwebsite + "api/v1/home", {
+        headers: {
+          authorization: localStorage.getItem("ExpressItAuthToken"),
+        },
+      });
+      if (res.status === 200) {
+        setUser({ userId: res.data.userId, userName: res.data.userName });
+      }
+    } catch (e) {
       alert("Please Sign In!");
+      navigate("/");
     }
   }
 
   async function getPublishedBlogs() {
-    const res = await axios.get(APIwebsite + "api/v1/blog/publish/bulk", {
-      headers: {
-        authorization: localStorage.getItem("ExpressItAuthToken"),
-      },
-    });
-    if (res.status === 200) {
-      setPublishedBlogs(res.data.Posts);
-    } else {
-      alert("Please Sign In!");
+    try {
+      const res = await axios.get(APIwebsite + "api/v1/blog/publish/bulk", {
+        headers: {
+          authorization: localStorage.getItem("ExpressItAuthToken"),
+        },
+      });
+      if (res.status === 200) {
+        setPublishedBlogs(res.data.Posts);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   async function getUnpublishedBlogs() {
-    const res = await axios.get(APIwebsite + "api/v1/blog/unpublish/bulk", {
-      headers: {
-        authorization: localStorage.getItem("ExpressItAuthToken"),
-      },
-    });
-    if (res.status === 200) {
-      setUnpublishedBlogs(res.data.Posts);
-    } else {
-      alert("Please Sign In!");
+    try {
+      const res = await axios.get(APIwebsite + "api/v1/blog/unpublish/bulk", {
+        headers: {
+          authorization: localStorage.getItem("ExpressItAuthToken"),
+        },
+      });
+      if (res.status === 200) {
+        setUnpublishedBlogs(res.data.Posts);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -198,7 +205,9 @@ export default function Home() {
           </div>
         </div>
         <div className="w-screen max-w-5xl">
-          {displayingBlogs.length === 0 && showNoItemsMessage ? (
+          {displayingBlogs.length === 0 &&
+          showNoItemsMessage &&
+          selectedOption === "Unpublished" ? (
             <>
               <div className="text-center pt-6">
                 You don't have any Unpublished Blogs
