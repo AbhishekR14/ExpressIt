@@ -58,6 +58,7 @@ blogRoute.get("/post/:id", async (c) => {
     const foundPost = await prisma.post.findUnique({
       where: {
         id: postId,
+        published: true,
       },
       select: {
         id: true,
@@ -321,6 +322,43 @@ blogRoute.put("/unpublish", async (c) => {
   } catch (e) {
     c.status(403);
     return c.json({ error: "Post could not be Unpublished" });
+  }
+});
+
+blogRoute.get("/unpublished/post/:id", async (c) => {
+  const postId = c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const foundPost = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        published: true,
+        publishedDate: true,
+        authorId: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+    if (foundPost) {
+      return c.json({ Post: foundPost });
+    } else {
+      c.status(403);
+      return c.json({ error: "Post could not be found" });
+    }
+  } catch (e) {
+    c.status(403);
+    return c.json({ error: "Post could not be found" });
   }
 });
 

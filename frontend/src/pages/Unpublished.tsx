@@ -25,14 +25,18 @@ export default function Unpublished() {
 
   async function getBlog() {
     try {
-      const res = await axios.get(APIwebsite + "api/v1/blog/post/" + id, {
-        headers: {
-          authorization: localStorage.getItem("ExpressItAuthToken"),
-        },
-      });
+      const res = await axios.get(
+        APIwebsite + "api/v1/blog/unpublished/post/" + id,
+        {
+          headers: {
+            authorization: localStorage.getItem("ExpressItAuthToken"),
+          },
+        }
+      );
       setBlog(res.data.Post);
     } catch (e) {
-      console.log(e);
+      alert("Blog is not published");
+      navigate("/");
     }
   }
 
@@ -45,11 +49,9 @@ export default function Unpublished() {
       });
       if (res.status === 200 && res.data.userId === blog.authorId) {
         setValidUser(true);
-      } else {
-        alert("Blog is not published");
       }
     } catch (e) {
-      alert("Blog is not published");
+      console.log(e);
     }
   }
 
